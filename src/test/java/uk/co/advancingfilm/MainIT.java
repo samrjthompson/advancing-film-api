@@ -1,4 +1,4 @@
-package org.example;
+package uk.co.advancingfilm;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

@@ -1,9 +1,9 @@
-package org.example.steps;
+package uk.co.advancingfilm.steps;
 
-import static org.example.config.CucumberContext.CONTEXT;
-import static org.example.config.WireMockTestConfig.getServeEvents;
-import static org.example.config.WireMockTestConfig.setupWireMock;
-import static org.example.config.WireMockTestConfig.stubGet;
+import static uk.co.advancingfilm.config.CucumberContext.CONTEXT;
+import static uk.co.advancingfilm.config.WireMockTestConfig.getServeEvents;
+import static uk.co.advancingfilm.config.WireMockTestConfig.setupWireMock;
+import static uk.co.advancingfilm.config.WireMockTestConfig.stubGet;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -19,7 +19,7 @@ import io.cucumber.java.en.When;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import org.apache.commons.io.IOUtils;
-import org.example.utils.TestUtils;
+import uk.co.advancingfilm.utils.TestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;

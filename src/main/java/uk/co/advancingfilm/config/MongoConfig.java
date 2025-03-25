@@ -1,4 +1,4 @@
-package org.example.config;
+package uk.co.advancingfilm.config;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;

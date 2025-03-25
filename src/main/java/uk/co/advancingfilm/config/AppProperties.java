@@ -1,4 +1,4 @@
-package org.example.config;
+package uk.co.advancingfilm.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

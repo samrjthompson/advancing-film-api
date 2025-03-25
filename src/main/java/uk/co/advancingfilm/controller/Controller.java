@@ -1,4 +1,4 @@
-package org.example.controller;
+package uk.co.advancingfilm.controller;
 
 import java.util.function.Supplier;
 import org.springframework.http.HttpStatusCode;

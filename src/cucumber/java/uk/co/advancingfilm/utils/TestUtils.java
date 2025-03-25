@@ -1,4 +1,4 @@
-package org.example.utils;
+package uk.co.advancingfilm.utils;
 
 import com.github.tomakehurst.wiremock.http.RequestMethod;
 import org.springframework.http.HttpMethod;

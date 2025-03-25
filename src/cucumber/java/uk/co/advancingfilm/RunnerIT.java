@@ -1,4 +1,4 @@
-package org.example;
+package uk.co.advancingfilm;
 
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.junit.platform.suite.api.SelectClasspathResource;

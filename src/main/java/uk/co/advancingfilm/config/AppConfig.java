@@ -1,4 +1,4 @@
-package org.example.config;
+package uk.co.advancingfilm.config;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;

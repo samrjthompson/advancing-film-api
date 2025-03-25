@@ -1,8 +1,8 @@
-package org.example.config;
+package uk.co.advancingfilm.config;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static org.example.RunnerIT.WIRE_MOCK_PORT;
+import static uk.co.advancingfilm.RunnerIT.WIRE_MOCK_PORT;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.stubbing.ServeEvent;

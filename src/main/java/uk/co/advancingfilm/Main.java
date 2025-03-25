@@ -1,6 +1,6 @@
-package org.example;
+package uk.co.advancingfilm;
 
-import org.example.config.AppProperties;
+import uk.co.advancingfilm.config.AppProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
