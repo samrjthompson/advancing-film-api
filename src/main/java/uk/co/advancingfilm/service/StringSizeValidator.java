@@ -1,12 +1,14 @@
 package uk.co.advancingfilm.service;
 
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.nio.charset.StandardCharsets;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 @Component
-public class StringSizeValidator {
+public class StringSizeValidator implements ConstraintValidator<ByteSizeLimit, String> {
 
     private final int maxBytes;
 
@@ -14,7 +16,8 @@ public class StringSizeValidator {
         this.maxBytes = maxBytes;
     }
 
-    public boolean isValidString(final String value) {
+    @Override
+    public boolean isValid(final String value, ConstraintValidatorContext context) {
         if (!StringUtils.hasText(value)) {
             return true;
         }

@@ -22,7 +22,7 @@ class StringSizeValidatorTest {
         final String input = "a".repeat(count);
 
         // when
-        final boolean actual = stringSizeValidator.isValidString(input);
+        final boolean actual = stringSizeValidator.isValid(input, null);
 
         // then
         assertEquals(expected, actual);
@@ -35,6 +35,6 @@ class StringSizeValidatorTest {
             "''"
     }, nullValues = "null")
     void shouldReturnTrueIfStringIsNullOrEmpty(final String input) {
-        assertTrue(stringSizeValidator.isValidString(input));
+        assertTrue(stringSizeValidator.isValid(input, null));
     }
 }
