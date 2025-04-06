@@ -1,4 +1,4 @@
-artifact_name	:= template
+artifact_name	:= advancing-film-api
 version			:= unversioned
 
 .PHONY: clean
@@ -26,3 +26,7 @@ build: clean
 	mvn versions:set -DnewVersion=$(version) -DgenerateBackupPoms=false
 	mvn package -Dmaven.test.skip=true
 	cp ./target/$(artifact_name)-$(version).jar ./$(artifact_name).jar
+
+.PHONY: docker-image
+docker-image: build
+	docker build -t advancing-film-api .
