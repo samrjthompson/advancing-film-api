@@ -2,44 +2,17 @@ package uk.co.advancingfilm.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.testcontainers.containers.MongoDBContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-@Disabled // Disabled due to lack of working mongo config
-@Testcontainers
-@AutoConfigureMockMvc
-@SpringBootTest
-class ControllerIT {
+class ControllerIT extends AbstractControllerIT {
 
-    @Value("${spring.data.mongodb.database}")
-    private String collectionName;
-    private static final String HEALTHCHECK_ENDPOINT = "/healthcheck";
-
-    @Container
-    private static final MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:8.0.3");
-
-    @Autowired
-    private MongoTemplate mongoTemplate;
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
+    private static final String GET_SINGLE_FILM_STOCK_URI = "/film-stocks/{film_stock}";
+    private static final String PORTRA_400_METADATA_ID = "portra400";
 
     @DynamicPropertySource
     static void setProperties(DynamicPropertyRegistry registry) {
@@ -47,20 +20,26 @@ class ControllerIT {
     }
 
     @BeforeEach
-    void setUp() {
-        mongoTemplate.dropCollection(collectionName);
-        mongoTemplate.createCollection(collectionName);
+    void setUp() throws Exception {
+        mongoTemplate.dropCollection(DATABASE);
+        mongoTemplate.createCollection(DATABASE);
+
+        final String doc = getJsonAsString("/film_stock_document.json");
+        mongoTemplate.insert(doc, FILM_STOCK_COLLECTION);
     }
 
     @Test
-    void healthcheck() throws Exception {
+    void shouldReturnSingleDocument() throws Exception {
         // given
+        final String expected = getJsonAsString("/response/single_film_stock_response.json");
 
         // when
-        ResultActions result = mockMvc.perform(get(HEALTHCHECK_ENDPOINT)
-                .contentType(MediaType.APPLICATION_JSON));
+        ResultActions result = mockMvc.perform(get(GET_SINGLE_FILM_STOCK_URI, PORTRA_400_METADATA_ID));
 
         // then
         result.andExpect(MockMvcResultMatchers.status().isOk());
+        assertJsonResult(result, expected);
     }
+
+
 }

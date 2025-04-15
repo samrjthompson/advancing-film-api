@@ -1,35 +1,35 @@
 package uk.co.advancingfilm.config;
 
-import com.mongodb.ConnectionString;
-import com.mongodb.MongoClientSettings;
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
-import org.springframework.beans.factory.annotation.Value;
+import com.mongodb.WriteConcern;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
+import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 
-//@Configuration
-public class MongoConfig {
+@Configuration
+public class MongoConfig implements InitializingBean {
 
-    @Value("${spring.data.mongodb.uri}")
-    private String connectionUri;
+    private final MappingMongoConverter mappingMongoConverter;
 
-    @Value("${spring.data.mongodb.database}")
-    private String databaseName;
+    public MongoConfig(@Lazy MappingMongoConverter mappingMongoConverter) {
+        this.mappingMongoConverter = mappingMongoConverter;
+    }
 
-    @Bean
-    public MongoClient mongo() {
-        ConnectionString connectionString = new ConnectionString(connectionUri);
-        MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
-                .applyConnectionString(connectionString)
-                .build();
-
-        return MongoClients.create(mongoClientSettings);
+    // Remove _class field from data
+    @Override
+    public void afterPropertiesSet() {
+        mappingMongoConverter.setTypeMapper(new DefaultMongoTypeMapper(null));
     }
 
     @Bean
-    public MongoTemplate mongoTemplate() {
-        return new MongoTemplate(mongo(), databaseName);
+    MongoTemplate mongoTemplate(MongoDatabaseFactory factory) {
+        MongoTemplate mongoTemplate = new MongoTemplate(factory, mappingMongoConverter);
+        mongoTemplate.setWriteConcern(WriteConcern.ACKNOWLEDGED);
+
+        return mongoTemplate;
     }
 }

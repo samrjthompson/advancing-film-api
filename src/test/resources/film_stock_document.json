@@ -1,0 +1,13 @@
+{
+  "_id": "65f123abc4567890def12345",
+  "name": "Kodak Portra 400",
+  "metadata": {
+    "stockId": "portra400"
+  },
+  "iso": 400,
+  "format": "35mm",
+  "isColour": true,
+  "type": "Negative",
+  "description": "A professional-grade color negative film with fine grain and exceptional latitude.",
+  "sampleImageUrl": "https://your-s3-bucket.s3.amazonaws.com/samples/portra400.jpg"
+}

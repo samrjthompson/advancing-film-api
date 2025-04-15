@@ -1,42 +1,37 @@
 package uk.co.advancingfilm.controller;
 
-import java.util.function.Supplier;
-import org.springframework.http.HttpStatusCode;
+import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
+import uk.co.advancingfilm.model.response.FilmStockResponse;
+import uk.co.advancingfilm.service.Service;
 
 @CrossOrigin
 @RestController
 public class Controller {
 
-    private final Supplier<WebClient> webClientSupplier;
+    private final Service service;
 
-    public Controller(Supplier<WebClient> webClientSupplier) {
-        this.webClientSupplier = webClientSupplier;
+    public Controller(Service service) {
+        this.service = service;
     }
 
-    // This is for demo endpoint only to test cucumber tests and wiremock stubbing
-    @GetMapping("/fetch/external")
-    public ResponseEntity<String> fetchExternal() {
-        HttpStatusCode statusCode;
-        ResponseEntity<String> responseEntity;
-        try {
-            responseEntity = webClientSupplier.get()
-                    .get()
-                    .uri("/external-endpoint")
-                    .retrieve()
-                    .toEntity(String.class)
-                    .blockOptional()
-                    .orElseThrow(RuntimeException::new);
+    @GetMapping("/film-stocks/{film_stock}")
+    public ResponseEntity<FilmStockResponse> getFilmStock(
+            @PathVariable("film_stock") final String filmStock) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(service.getFilmStock());
+    }
 
-            statusCode = responseEntity.getStatusCode();
-        } catch (WebClientResponseException ex) {
-            statusCode = ex.getStatusCode();
-        }
-        return ResponseEntity.status(statusCode).build();
+    @GetMapping("/film-stocks")
+    public ResponseEntity<List<FilmStockResponse>> getAllFilmStocks() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(service.getAllFilmStocks());
     }
 }
